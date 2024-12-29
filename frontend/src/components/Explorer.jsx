@@ -5,19 +5,19 @@ import styles from '../styles/Explorer.module.css';
 
 const explorerItems = [
   {
-    name: 'home.jsx',
+    name: 'home.md',
     path: '/',
-    icon: 'react_icon.svg',
+    icon: 'markdown_icon.svg',
   },
   {
-    name: 'about.html',
+    name: 'about.pu',
     path: '/about',
-    icon: 'html_icon.svg',
+    icon: 'python.svg',
   },
   {
-    name: 'contact.css',
+    name: 'contact.sh',
     path: '/contact',
-    icon: 'css_icon.svg',
+    icon: 'bash.svg',
   },
   {
     name: 'projects.js',

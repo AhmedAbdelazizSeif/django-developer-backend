@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 import json
 
-from .models import Project, Contact
+from .models import Project, Contact, Article
 
 @csrf_exempt
 def contact_view(request):
@@ -52,20 +52,19 @@ def articles_view(request):
     you can create an Article model and query that as done above.
     Otherwise, keep them as example data or fetch from dev.to, etc.
     """
-    data = [
-        {
-            "id": 1,
-            "title": "How to Convert Next.js to React + Django",
-            "url": "https://dev.to/article1",
-            "description": "Step by step guide ...",
-            "cover_image": "https://example.com/cover.png",
-            "page_views_count": 120,
-            "public_reactions_count": 4,
-            "comments_count": 2
-        },
-        # ...
-    ]
-    return JsonResponse(data, safe=False)
+    articles = Article.objects.all().order_by('id')
+    result = []
+    # for project in articles:
+    #     result.append({
+    #         "id": project.id,
+    #         "name": project.name,
+    #         'image': project.image.url if project.image else None,
+    #         "description": project.description,
+    #         "tags": project.tag_list(),  # convert comma-separated to a list
+    #         "source_code": project.source_code,
+    #         "demo": project.demo
+    #     })
+    return JsonResponse(result, safe=False)
 
 def about_view(request):
     """
@@ -82,3 +81,20 @@ Yet, I realized something: Data science often works behind the scenes. I wanted 
 Today, I craft intelligent systems that blend the precision of data science with the accessibility of user-friendly interfaces. With every project, I aim to make complex insights actionable, turning numbers into narratives that empower decisions.""",
                 "connect": "Let’s connect—I’m always hungry for new challenges (post-iftar, of course)."
                 })
+
+
+
+def project_extended_view(request, project_name):
+    """
+    Return the extended description of a project.
+    """
+    project_name = project_name.replace('-', ' ')
+    project = get_object_or_404(Project, name=project_name)
+    result = {
+        "name": project.name,
+        'image': project.image.url if project.image else None,
+        "extended_description": project.extended_description,
+        'source_code': project.source_code,
+        'skills': project.tag_list(),
+    }
+    return JsonResponse({"project": result}, safe=True)

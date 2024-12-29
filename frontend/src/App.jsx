@@ -9,6 +9,7 @@ import Projects from './pages/Projects'
 import Articles from './pages/Articles'
 import Github from './pages/Github'
 import Settings from './pages/Settings'
+import ProjectDetail from './pages/ProjectDetail'
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="/articles" element={<Articles />} />
           <Route path="/github" element={<Github />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/projects/:projectName" element={<ProjectDetail />} />
+
         </Routes>
       </Layout>
     </Router>

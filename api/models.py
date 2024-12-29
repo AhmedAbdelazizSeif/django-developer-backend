@@ -1,5 +1,5 @@
 from django.db import models
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 
 class Project(models.Model):
     """
@@ -9,6 +9,7 @@ class Project(models.Model):
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to='projects', blank=True, null=True)
     description = models.TextField(blank=True)
+    extended_description = CKEditor5Field(blank=True, null=True, config_name='extends')
     # We'll store tags as a comma-separated string for simplicity
     tags = models.CharField(max_length=255, blank=True, help_text="Comma-separated tags")
     source_code = models.URLField(blank=True, null=True)
@@ -44,7 +45,7 @@ class Person(models.Model):
     name = models.CharField(max_length=100,null=True)
     age = models.IntegerField(null=True)
     title = models.CharField(max_length=100,null=True)
-    story = RichTextField(null=True)  # Check if you need to migrate to CKEditor 5
+    story = CKEditor5Field(null=True)  # Check if you need to migrate to CKEditor 5
     connect = models.CharField(max_length=150, default="Not specified",null=True)  # Added default value
     email = models.EmailField(null=True)
     phone_number = models.CharField(max_length=15,null=True)
@@ -52,6 +53,18 @@ class Person(models.Model):
     linkedin = models.URLField(null=True)
     
     image = models.ImageField(upload_to='person', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class Article(models.Model):
+    """
+    Example fields for an article.
+    """
+    name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='articles', blank=True, null=True)
+    description = CKEditor5Field(blank=True, null=True, config_name='extends')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

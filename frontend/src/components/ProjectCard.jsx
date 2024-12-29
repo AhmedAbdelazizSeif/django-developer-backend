@@ -3,7 +3,7 @@ import styles from "../styles/ProjectCard.module.css";
 
 const ProjectCard = ({ project }) => {
   const imageUrl = project.image
-    ? `http://127.0.0.1:8000${project.image}`
+    ? `http://a-seif.zapto.org:8000${project.image}`
     : "/placeholder.jpg";
   const truncatedDescription =
     project.description.length > 200
@@ -27,12 +27,16 @@ const ProjectCard = ({ project }) => {
             {tag}
           </span>
         ))}
+        {/* If we truncated tags, show an ellipsis */}
         {totalLength < project.tags.join("").length && (
           <span className={styles.tag}>...</span>
         )}
       </div>
     );
   }, [project.tags]);
+
+  // Construct the detail URL: /projects/<hyphenated-name>
+  const projectDetailUrl = `/projects/${project.name.replace(/\s+/g, "-")}`;
 
   return (
     <div className={styles.card}>
@@ -46,11 +50,18 @@ const ProjectCard = ({ project }) => {
       <div className={styles.content}>
         <h3>{project.name}</h3>
         <p>{truncatedDescription}</p>
+        
+        {/* Only show View Project button if description is truncated */}
         {project.description.length > 200 && (
-          <button className={styles.readMore}>View Project</button>
+          <a href={projectDetailUrl} className={styles.readMore}>
+            View Project
+          </a>
         )}
+
         {renderTags}
+
         <div className={styles.cta}>
+          {/* Link to the actual source code URL */}
           {project.source_code && (
             <a
               href={project.source_code}
@@ -61,14 +72,18 @@ const ProjectCard = ({ project }) => {
               Source Code
             </a>
           )}
-          <a
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.underline}
-          >
-            Live Demo
-          </a>
+          
+          {/* Demo link */}
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.underline}
+            >
+              Live Demo
+            </a>
+          )}
         </div>
       </div>
     </div>
