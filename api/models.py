@@ -62,8 +62,10 @@ class Article(models.Model):
     Example fields for an article.
     """
     name = models.CharField(max_length=255)
+    name_ara = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to='articles', blank=True, null=True)
     description = CKEditor5Field(blank=True, null=True, config_name='extends')
+    description_ara = CKEditor5Field(blank=True, null=True, config_name='extends')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

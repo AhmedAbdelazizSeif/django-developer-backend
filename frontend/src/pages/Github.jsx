@@ -1,3 +1,4 @@
+// src/pages/GithubPage.jsx
 import React, { useEffect, useState } from 'react';
 import GitHubCalendar from 'react-github-calendar';
 import RepoCard from '../components/RepoCard';
@@ -6,51 +7,61 @@ import styles from '../styles/GithubPage.module.css';
 const GithubPage = () => {
   const [user, setUser] = useState(null);
   const [repos, setRepos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Use an array with exactly 2 or 5 colors
   const theme = {
-    level0: '#161B22',
-    level1: '#0e4429',
-    level2: '#006d32',
-    level3: '#26a641',
-    level4: '#39d353',
+    dark: [
+      '#161B22',
+      '#0e4429',
+      '#006d32',
+      '#26a641',
+      '#39d353',
+    ],
   };
 
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
-        const userRes = await fetch(
-          `https://api.github.com/users/${process.env.REACT_APP_GITHUB_USERNAME}`,
-          {
-            headers: {
-              Authorization: `token ${process.env.REACT_APP_GITHUB_API_KEY}`,
-            },
-          }
-        );
+        const backendURL = 'http://a-seif.zapto.org:8000/api/github';
+
+        // Fetch User Data
+        const userRes = await fetch(`${backendURL}/user/`);
+        if (!userRes.ok) {
+          throw new Error(`Error fetching user data: ${userRes.status} ${userRes.statusText}`);
+        }
         const userData = await userRes.json();
         setUser(userData);
 
-        const repoRes = await fetch(
-          `https://api.github.com/users/${process.env.REACT_APP_GITHUB_USERNAME}/repos?per_page=100`,
-          {
-            headers: {
-              Authorization: `token ${process.env.REACT_APP_GITHUB_API_KEY}`,
-            },
-          }
-        );
-        let repoData = await repoRes.json();
-        repoData = repoData
-          .sort((a, b) => b.stargazers_count - a.stargazers_count)
-          .slice(0, 6);
+        // Fetch Repositories
+        const repoRes = await fetch(`${backendURL}/repos/`);
+        if (!repoRes.ok) {
+          throw new Error(`Error fetching repositories: ${repoRes.status} ${repoRes.statusText}`);
+        }
+        const repoData = await repoRes.json();
         setRepos(repoData);
       } catch (error) {
         console.error('Failed to fetch GitHub data:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchGitHubData();
   }, []);
 
-  if (!user) {
+  if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!user) {
+    return <div>Failed to load user data.</div>;
   }
 
   return (
@@ -80,7 +91,7 @@ const GithubPage = () => {
       </div>
       <div className={styles.contributions}>
         <GitHubCalendar
-          username={process.env.REACT_APP_GITHUB_USERNAME}
+          username={user.login}
           theme={theme}
           hideColorLegend
           hideMonthLabels

@@ -10,6 +10,9 @@ import Articles from './pages/Articles'
 import Github from './pages/Github'
 import Settings from './pages/Settings'
 import ProjectDetail from './pages/ProjectDetail'
+import SingleArticlePage from './pages/ArticleDetail'
+import ErrorBoundary from './components/ErrorBoundary';
+
 
 function App() {
   return (
@@ -21,6 +24,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/:id" element={<SingleArticlePage />} />
+
           <Route path="/github" element={<Github />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/projects/:projectName" element={<ProjectDetail />} />

@@ -1,98 +1,129 @@
+/* frontend/src/styles/ProjectDetail.module.css */
+
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
-  color: #d4d4d4;
+  background-color: #1e1e1e; /* Dark VSCode-like background */
+  color: #cccccc;
   min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-.loadingContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  color: #d4d4d4;
+/* Optional: add a fade-in or slide-in animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.loadingSpinner {
-  font-size: 1.2rem;
-}
-
-.error {
-  color: #f48771;
-  padding: 1rem;
-  text-align: center;
+.vscodeTheme {
+  animation: fadeInUp 0.4s ease forwards;
 }
 
 .title {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  color: #d4d4d4;
+  color: #dcdcaa; /* Contrasting color for the title */
+  font-size: 2rem;
+  margin-bottom: 1rem;
   border-bottom: 1px solid #333;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .imageContainer {
   margin: 2rem 0;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #2d2d2d;
-  padding: 1rem;
+  text-align: center;
 }
 
 .image {
+  max-width: 600px;
   width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 4px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
 }
 
 .content {
-  margin-top: 2rem;
+  line-height: 1.6;
+  font-size: 1rem;
 }
 
-.codeBlock {
-  margin: 2rem 0 !important;
-  border-radius: 8px !important;
-  background-color: #2d2d2d !important;
+/* The project description text container */
+.extendedDescription {
+  margin-bottom: 2rem;
 }
 
+/* Style headings inside extendedDescription */
+.extendedDescription h2,
+.extendedDescription h3 {
+  color: #569cd6;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.extendedDescription p {
+  margin-bottom: 1rem;
+  color: #cccccc;
+}
+
+/* You can style any <pre><code> blocks if your text has them */
+.extendedDescription pre {
+  background-color: #2d2d2d;
+  color: #cccccc;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+/* Skills Section */
 .skillsSection {
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background: #2d2d2d;
-  border-radius: 8px;
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px dashed #444;
 }
 
 .skillsSection h2 {
-  margin-bottom: 1rem;
-  color: #d4d4d4;
+  color: #c586c0;
+  margin-bottom: 0.5rem;
 }
 
+/* Source Code Section */
 .sourceCode {
   margin-top: 2rem;
-  padding: 1.5rem;
-  background: #2d2d2d;
-  border-radius: 8px;
+  padding: 1rem 0;
+  border-top: 1px solid #333;
 }
 
 .sourceCode h2 {
-  color: #d4d4d4;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  color: #4ec9b0;
 }
 
 .sourceLink {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: #0e639c;
-  color: white;
+  color: #4ec9b0;
   text-decoration: none;
-  border-radius: 4px;
-  transition: background 0.2s;
 }
 
 .sourceLink:hover {
-  background: #1177bb;
+  text-decoration: underline;
+}
+
+/* Loading / Error States */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.loadingSpinner {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.error {
+  color: #f44747;
+  text-align: center;
+  margin-top: 2rem;
 }

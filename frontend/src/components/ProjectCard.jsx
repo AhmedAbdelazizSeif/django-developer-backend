@@ -40,6 +40,7 @@ const ProjectCard = ({ project }) => {
 
   return (
     <div className={styles.card}>
+      <a href={projectDetailUrl}>
       <img
         style={{ borderRadius: "20px" }}
         src={imageUrl}
@@ -86,6 +87,7 @@ const ProjectCard = ({ project }) => {
           )}
         </div>
       </div>
+      </a>
     </div>
   );
 };

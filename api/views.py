@@ -1,9 +1,10 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
+import requests
 import json
 
-from .models import Project, Contact, Article
+from .models import Project, Contact, Article, Person
 
 @csrf_exempt
 def contact_view(request):
@@ -15,12 +16,16 @@ def contact_view(request):
         message = data.get('message')
 
         # Save contact data to the database
-        Contact.objects.create(
+        contact = Contact.objects.create(
             name=name,
             email=email,
             subject=subject,
             message=message
         )
+
+        contact.save()
+
+
 
         return JsonResponse({"msg": "Success"}, status=201)
     return JsonResponse({"msg": "Only POST allowed."}, status=405)
@@ -45,42 +50,94 @@ def projects_view(request):
         })
     return JsonResponse(result, safe=False)
 
+def get_person(request):
+    """
+    Return the person's info.
+    """
+    person = Person.objects.all().first()
+    result = {
+        "name": person.name,
+        "age": person.age,
+        "title": person.title,
+        "story": person.story,
+        "connect": person.connect,
+        "email": person.email,
+        "phone_number": person.phone_number,
+        "github": person.github,
+        "linkedin": person.linkedin,
+        "image": person.image.url if person.image else None,
+    }
+    return result
+
+def person_view(request):
+    """
+    Return the person's info.
+    """
+    person = get_person(request)
+    name = person['name']
+    title = person['title']
+    image = person['image']
+    return JsonResponse({
+        "name": name,
+        "title": title,
+        "image": image,
+    }, safe=False)
 
 def articles_view(request):
     """
-    As before, if you want articles to come from your DB,
-    you can create an Article model and query that as done above.
-    Otherwise, keep them as example data or fetch from dev.to, etc.
+    Return a list of all articles with minimal info 
+    (enough for the cards). 
     """
     articles = Article.objects.all().order_by('id')
+    
     result = []
-    # for project in articles:
-    #     result.append({
-    #         "id": project.id,
-    #         "name": project.name,
-    #         'image': project.image.url if project.image else None,
-    #         "description": project.description,
-    #         "tags": project.tag_list(),  # convert comma-separated to a list
-    #         "source_code": project.source_code,
-    #         "demo": project.demo
-    #     })
+    for article in articles:
+        result.append({
+            "id": article.id,
+            "name": article.name,
+            "name_ara": article.name_ara,
+            "image": article.image.url if article.image else None,
+            "description": article.description,  # might be truncated on frontend
+            "description_ara": article.description_ara, 
+            "created_at": article.created_at.isoformat(),
+        })
+    
+    return JsonResponse(result, safe=False)
+
+
+def article_detail_view(request, article_id):
+    """
+    Return the full details for a single article.
+    """
+    try:
+        article = Article.objects.get(id=article_id)
+    except Article.DoesNotExist:
+        return JsonResponse({'error': 'Article not found'}, status=404)
+
+    result = {
+        "id": article.id,
+        "name": article.name,
+        "name_ara": article.name_ara,
+        "image": article.image.url if article.image else None,
+        "description": article.description,
+        "description_ara": article.description_ara,
+        "created_at": article.created_at.isoformat("#", "hours"),
+    }
     return JsonResponse(result, safe=False)
 
 def about_view(request):
     """
     About page content.
     """
+    person = get_person(request)
+    story = person['story']
+    connect = person['connect']
     return JsonResponse({
                 "title": "About Me",
-                "story": """In 2019, a simple volunteer project introduced me to the intricacies of economic sectors, igniting a fascination with the stock market. My enthusiasm soon turned into action, but during Ramadan that year, a distracted, fasting me watched my investments in APPL stock crumble. The culprit? Hunger-induced impatience before iftar
-
-That pivotal moment merged two of my passions: programming and problem-solving. I vowed to create a system that wouldn’t miss opportunities like I did. Fast forward to my graduation project—an AI-powered trading assistant that analyzed trends and made calculated decisions.
-
-Yet, I realized something: Data science often works behind the scenes. I wanted my work to speak for itself, visually and impactfully. This drive led me to master Django, transforming my data-driven solutions into full-fledged backend systems.
-
-Today, I craft intelligent systems that blend the precision of data science with the accessibility of user-friendly interfaces. With every project, I aim to make complex insights actionable, turning numbers into narratives that empower decisions.""",
-                "connect": "Let’s connect—I’m always hungry for new challenges (post-iftar, of course)."
-                })
+                "story": story,
+                "connect": connect,
+                },
+                safe=True)
 
 
 
@@ -98,3 +155,16 @@ def project_extended_view(request, project_name):
         'skills': project.tag_list(),
     }
     return JsonResponse({"project": result}, safe=True)
+
+def get_contact_info(request):
+    """
+    Return the contact info.
+    """
+    person = get_person(request)
+    return JsonResponse({
+        "email": person['email'],
+        "phone_number": person['phone_number'],
+        "github": person['github'],
+        "linkedin": person['linkedin'],
+    }, safe=True)
+

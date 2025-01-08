@@ -1,45 +1,31 @@
+// frontend/src/pages/ArticlesPage.jsx
+import React, { useEffect, useState } from 'react';
 import ArticleCard from '../components/ArticleCard';
 import styles from '../styles/ArticlesPage.module.css';
 
-const ArticlesPage = ({ articles }) => {
+const ArticlesPage = () => {
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    fetch('http://a-seif.zapto.org:8000/api/articles')
+      .then((res) => res.json())
+      .then((data) => {
+        setArticles(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
-    <>
-      <h3>
-        Recent Posts from{' '}
-        <a
-          href="https://dev.to/itsnitinr"
-          target="_blank"
-          rel="noopener"
-          className={styles.underline}
-        >
-          dev.to
-        </a>
-      </h3>
-      <div className={styles.container}>
+    <div className={styles.page}>
+      <h1 className={styles.pageTitle}>Welcome to My Writing Section </h1>
+
+      <div className={styles.articlesGrid}>
         {articles.map((article) => (
           <ArticleCard key={article.id} article={article} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
-
-export async function getStaticProps() {
-  const res = await fetch(
-    'https://dev.to/api/articles/me/published?per_page=6',
-    {
-      headers: {
-        'api-key': process.env.DEV_TO_API_KEY,
-      },
-    }
-  );
-
-  const data = await res.json();
-
-  return {
-    props: { title: 'Articles', articles: data },
-    revalidate: 60,
-  };
-}
 
 export default ArticlesPage;

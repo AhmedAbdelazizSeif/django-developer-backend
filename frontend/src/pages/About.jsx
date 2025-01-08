@@ -18,7 +18,8 @@ const AboutPage = () => {
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-5">
       <h3 className="text-yellow-300 text-xl font-bold mb-4">A Little Bit About Me</h3>
       <div className="max-w-3xl w-full bg-gray-800 rounded-lg shadow-lg p-6">
-        <div className="text-sm md:text-base font-mono text-gray-200 whitespace-pre-wrap break-words">
+        <div className="text-sm md:text-base font-mono text-gray-200 whitespace-pre-wrap break-words"
+        >
           <span className="text-green-400">"""</span>
           <span className="text-green-400">{aboutData.title}</span>
           <span className="text-green-400">"""</span>
@@ -28,8 +29,7 @@ const AboutPage = () => {
           
           &nbsp;&nbsp;<span className="text-blue-400">def</span> <span className="text-teal-300">__init__</span>(self):<br/>
           &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-gray-400">self.story</span> = <span className="text-yellow-300">"""<br/>
-          &nbsp;&nbsp;&nbsp;&nbsp;{aboutData.story}
-          &nbsp;&nbsp;&nbsp;&nbsp;<br/>"""</span><br/>
+          <div dangerouslySetInnerHTML={{ __html: aboutData.story }}></div>"""</span><br/>
 
           &nbsp;&nbsp;<span className="text-blue-400">def</span> <span className="text-blue-400">connect</span>(self):<br/>
           &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-blue-400">return</span> <span className="text-yellow-300">"{aboutData.connect}"</span>

@@ -81,7 +81,7 @@ def articles_view(request):
     data = [
         {
             "id": 1,
-            "title": "How to Convert Next.js to React + Django",
+            "title": "How to Convert React.JS to React + Django",
             "url": "https://dev.to/article1",
             "description": "Step by step guide ...",
             "cover_image": "https://example.com/cover.png",
@@ -5761,7 +5761,7 @@ export default defineConfig({
   <head>
     <meta charset="UTF-8" />
     <title>My VSCode Portfolio - React + Django</title>
-    <meta name="description" content="Converted from Next.js to React + Django" />
+    <meta name="description" content="Converted from React.JS to React + Django" />
   </head>
   <body class="bg-gray-900 text-white">
     <div id="root"></div>
@@ -7862,7 +7862,7 @@ const Bottombar = () => {
       <div className={styles.container}>
         <div className={styles.section}>
           <NextjsIcon className={styles.icon} />
-          <p>Powered by Next.js</p>
+          <p>Powered by React.JS</p>
         </div>
         <div className={styles.section}>
           <CheckIcon className={styles.icon} />

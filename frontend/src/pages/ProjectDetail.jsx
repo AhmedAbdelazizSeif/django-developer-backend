@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import styles from '../styles/ProjectDetail.module.css';
 import ProjectSkills from '../components/ProjectSkills';
 import { useParams } from 'react-router-dom';
@@ -14,13 +12,11 @@ const ProjectDetail = () => {
 
   useEffect(() => {
     const fetchProject = async () => {
-      console.log('Fetching project:', projectName);
       try {
         setLoading(true);
         const response = await axios.get(
           `http://a-seif.zapto.org:8000/api/projects/${encodeURIComponent(projectName)}`
         );
-        console.log('Response received:', response.data);
         setProjectData(response.data.project);
       } catch (err) {
         console.error('Fetch error:', err);
@@ -33,7 +29,6 @@ const ProjectDetail = () => {
     if (projectName) {
       fetchProject();
     } else {
-      console.log('No project name provided');
       setError('No project name provided');
       setLoading(false);
     }
@@ -55,7 +50,7 @@ const ProjectDetail = () => {
     return <div className={styles.error}>No project data available</div>;
   }
 
-  // Parse the HTML string for extended description
+  // Convert escaped HTML from extended_description into real HTML
   const formattedDescription = projectData.extended_description
     ? projectData.extended_description
         .replace(/\\u003C/g, '<')
@@ -74,8 +69,8 @@ const ProjectDetail = () => {
 
       {imageUrl && (
         <div className={styles.imageContainer}>
-          <img 
-            src={imageUrl} 
+          <img
+            src={imageUrl}
             alt={projectData.name}
             className={styles.image}
           />
@@ -83,19 +78,13 @@ const ProjectDetail = () => {
       )}
 
       <div className={styles.content}>
-        <SyntaxHighlighter 
-          language="markdown"
-          style={dracula}
-          className={styles.codeBlock}
-          customStyle={{
-            padding: '20px',
-            borderRadius: '8px',
-            margin: '20px 0'
-          }}
-        >
-          {formattedDescription}
-        </SyntaxHighlighter>
+        {/* Render the project description as HTML */}
+        <div
+          className={styles.extendedDescription}
+          dangerouslySetInnerHTML={{ __html: formattedDescription }}
+        />
 
+        {/* Skills / Technologies */}
         {projectData.skills && projectData.skills.length > 0 && (
           <div className={styles.skillsSection}>
             <h2>Technologies & Skills</h2>
@@ -103,10 +92,11 @@ const ProjectDetail = () => {
           </div>
         )}
 
+        {/* Source Code */}
         {projectData.source_code ? (
           <div className={styles.sourceCode}>
             <h2>Source Code</h2>
-            <a 
+            <a
               href={projectData.source_code}
               target="_blank"
               rel="noopener noreferrer"

@@ -9,11 +9,31 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+# settings.py
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Load environment variables from .env file
+load_dotenv()
+
+# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+# Retrieve environment variables
+GITHUB_USERNAME = os.getenv('GITHUB_USERNAME')
+GITHUB_API_KEY = os.getenv('GITHUB_API_KEY')
+
+# Ensure variables are set
+if not GITHUB_USERNAME or not GITHUB_API_KEY:
+    raise ValueError("GITHUB_USERNAME and GITHUB_API_KEY must be set in the environment.")
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,10 +57,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'requests',
     'rest_framework',
     'corsheaders',
     'django_ckeditor_5',
     'api',
+    'api.github.apps.GithubConfig',
 ]
 
 MIDDLEWARE = [
@@ -131,6 +153,18 @@ MEDIA_ROOT = BASE_DIR / 'public'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    }
+}
+
 
 customColorPalette = [
     {

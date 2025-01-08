@@ -10,7 +10,7 @@ const explorerItems = [
     icon: 'markdown_icon.svg',
   },
   {
-    name: 'about.pu',
+    name: 'about.py',
     path: '/about',
     icon: 'python.svg',
   },
