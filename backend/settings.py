@@ -43,7 +43,7 @@ if not GITHUB_USERNAME or not GITHUB_API_KEY:
 SECRET_KEY = 'django-insecure-^%zv#ev=ipj-f-$+!hi5)vz%^&vna#=*6%3zrnu-z-(^w7ii@%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'a-seif.zapto.org']
 
@@ -68,6 +68,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -101,11 +102,31 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# Database settings (replace with your actual RDS values)
+# DB_ENGINE: "django.db.backends.mysql"
+# DB_NAME: "database-portfolio"
+# DB_USER: "admin"
+# DB_PASSWORD: "ZOwJx2QZSAPoDpanZ1WS"
+# DB_HOST: "database-portfolio.c5i02iyaevj1.us-east-1.rds.amazonaws.com"
+# DB_PORT: "3306"
+
+# Import dj-database-url at the beginning of the file.
+import dj_database_url
+
+# Replace the DATABASES configuration with PostgreSQL.
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        # Replace this value with your PostgreSQL connection string.
+        default='postgresql://admin:ZOwJx2QZSAPoDpanZ1WS@localhost:5432/database-portfolio',
+        conn_max_age=600
+    )
 }
 
 
@@ -255,3 +276,11 @@ CKEDITOR_5_CONFIGS = {
 
 # Define a constant in settings.py to specify file upload permissions
 CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"  # Possible values: "staff", "authenticated", "any"
+
+# This production code might break development mode, so we check whether we're in DEBUG mode
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
