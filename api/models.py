@@ -1,5 +1,7 @@
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
+from cloudinary.models import CloudinaryField
+
 
 class Project(models.Model):
     """
@@ -7,7 +9,7 @@ class Project(models.Model):
     Adjust the max_length, blank, null, etc. as needed.
     """
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='projects', blank=True, null=True)
+    image = CloudinaryField('image', folder="projects", blank=True, null=True)
     description = models.TextField(blank=True)
     extended_description = CKEditor5Field(blank=True, null=True, config_name='extends')
     # We'll store tags as a comma-separated string for simplicity
@@ -51,8 +53,8 @@ class Person(models.Model):
     phone_number = models.CharField(max_length=15,null=True)
     github = models.URLField(null=True)
     linkedin = models.URLField(null=True)
-    
-    image = models.ImageField(upload_to='person', blank=True, null=True)
+
+    image = CloudinaryField('image', folder='person', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -63,7 +65,9 @@ class Article(models.Model):
     """
     name = models.CharField(max_length=255)
     name_ara = models.CharField(max_length=255, blank=True, null=True)
-    image = models.ImageField(upload_to='articles', blank=True, null=True)
+
+    image = CloudinaryField('image', folder='articles', blank=True, null=True)
+
     description = CKEditor5Field(blank=True, null=True, config_name='extends')
     description_ara = CKEditor5Field(blank=True, null=True, config_name='extends')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -79,10 +83,10 @@ class Certificate(models.Model):
     title = models.CharField(max_length=255)
     acquired_at = models.DateField()
     expires_at = models.DateField(blank=True, null=True)
-    image = models.ImageField(upload_to='certificates', blank=True, null=True)
+    image = CloudinaryField('image', folder='certificates', blank=True, null=True)
     provider = models.CharField(max_length=255, blank=True, null=True)
     provider_url = models.URLField(blank=True, null=True)
-    small_image = models.ImageField(upload_to='certificates', blank=True, null=True)
+    small_image = CloudinaryField('image', folder='certificates/small', blank=True, null=True)
     cert_url = models.URLField(blank=True, null=True)
 
     def __str__(self):

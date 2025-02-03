@@ -34,8 +34,6 @@ GITHUB_API_KEY = os.getenv('GITHUB_API_KEY')
 if not GITHUB_USERNAME or not GITHUB_API_KEY:
     raise ValueError("GITHUB_USERNAME and GITHUB_API_KEY must be set in the environment.")
 
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -61,7 +59,17 @@ INSTALLED_APPS = [
     'django_ckeditor_5',
     'api',
     'api.github.apps.GithubConfig',
+    'cloudinary_storage',
+    'cloudinary',
 ]
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET')
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -96,14 +104,12 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': dj_database_url.config(default='sqlite:///{}'.format(BASE_DIR / 'db.sqlite3'))
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -123,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -134,7 +139,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -160,7 +164,6 @@ REST_FRAMEWORK = {
         'user': '1000/day'
     }
 }
-
 
 customColorPalette = [
     {
@@ -203,13 +206,13 @@ CKEDITOR_5_CONFIGS = {
             'blockQuote',
         ],
         'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
-        'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
-                    'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
+                    'code', 'subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
+                    'bulletedList', 'numberedList', 'todoList', '|', 'blockQuote', 'imageUpload', '|',
                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
-                    'insertTable',],
+                    'insertTable', ],
         'image': {
             'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
-                        'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
+                        'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side', '|'],
             'styles': [
                 'full',
                 'side',
@@ -220,8 +223,8 @@ CKEDITOR_5_CONFIGS = {
 
         },
         'table': {
-            'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
-            'tableProperties', 'tableCellProperties' ],
+            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells',
+                               'tableProperties', 'tableCellProperties'],
             'tableProperties': {
                 'borderColors': customColorPalette,
                 'backgroundColors': customColorPalette
@@ -231,12 +234,12 @@ CKEDITOR_5_CONFIGS = {
                 'backgroundColors': customColorPalette
             }
         },
-        'heading' : {
+        'heading': {
             'options': [
-                { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
-                { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
-                { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
-                { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+                {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'}
             ]
         }
     },
