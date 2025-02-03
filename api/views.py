@@ -152,7 +152,7 @@ def get_certificates(request):
             "title": certificate.title,
             "acquired_at": datetime.datetime.strftime(certificate.acquired_at, "%B %Y"),
             "expires_at": datetime.datetime.strftime(certificate.expires_at, "%B %Y") if certificate.expires_at else None,
-            "image": certificate.image.url if certificate.image else None,
+            "image": ertificate.image.url if certificate.image else None,
             "provider": certificate.provider,
             "provider_url": certificate.provider_url,
             "small_image": certificate.small_image.url if certificate.small_image else None,
