@@ -3,7 +3,7 @@ import styles from "../styles/ProjectCard.module.css";
 
 const ProjectCard = ({ project }) => {
   const imageUrl = project.image
-    ? `http://a-seif.zapto.org:8000${project.image}`
+    ? `http://127.0.0.1:8000${project.image}`
     : "/placeholder.jpg";
   const truncatedDescription =
     project.description.length > 200

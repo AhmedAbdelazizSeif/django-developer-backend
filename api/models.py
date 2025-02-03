@@ -70,3 +70,20 @@ class Article(models.Model):
 
     def __str__(self):
         return self.name
+
+class Certificate(models.Model):
+    """
+    Example fields for a certificate.
+    """
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    acquired_at = models.DateField()
+    expires_at = models.DateField(blank=True, null=True)
+    image = models.ImageField(upload_to='certificates', blank=True, null=True)
+    provider = models.CharField(max_length=255, blank=True, null=True)
+    provider_url = models.URLField(blank=True, null=True)
+    small_image = models.ImageField(upload_to='certificates', blank=True, null=True)
+    cert_url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title

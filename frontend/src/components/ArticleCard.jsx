@@ -10,7 +10,7 @@ const ArticleCard = ({ article }) => {
       {article.image && (
         <div className={styles.imageContainer}>
           <img
-            src={`http://a-seif.zapto.org:8000${article.image}`}
+            src={`http://127.0.0.1:8000${article.image}`}
             alt={article.name}
             className={styles.image}
           />

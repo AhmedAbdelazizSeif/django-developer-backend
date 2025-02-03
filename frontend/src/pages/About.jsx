@@ -4,7 +4,7 @@ const AboutPage = () => {
   const [aboutData, setAboutData] = useState(null);
 
   useEffect(() => {
-    fetch('http://a-seif.zapto.org:8000/api/about')
+    fetch('http://127.0.0.1:8000/api/about')
       .then((response) => response.json())
       .then((data) => setAboutData(data))
       .catch((error) => console.error('Error fetching about data:', error));

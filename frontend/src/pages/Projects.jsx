@@ -7,7 +7,7 @@ function ProjectsPage() {
   useEffect(() => {
     async function loadProjects() {
       try {
-        const res = await fetch('http://a-seif.zapto.org:8000/api/projects');
+        const res = await fetch('http://127.0.0.1:8000/api/projects');
         if (!res.ok) {
           throw new Error('Failed to fetch projects');
         }

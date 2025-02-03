@@ -24,7 +24,7 @@ const GithubPage = () => {
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
-        const backendURL = 'http://a-seif.zapto.org:8000/api/github';
+        const backendURL = 'http://127.0.0.1:8000/api/github';
 
         // Fetch User Data
         const userRes = await fetch(`${backendURL}/user/`);

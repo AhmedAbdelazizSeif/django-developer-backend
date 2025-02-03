@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 import requests
 import json
 
-from .models import Project, Contact, Article, Person
+from .models import Project, Contact, Article, Person, Certificate
 
 @csrf_exempt
 def contact_view(request):
@@ -138,6 +138,28 @@ def about_view(request):
                 "connect": connect,
                 },
                 safe=True)
+
+import datetime
+def get_certificates(request):
+    """
+    Return the certificates.
+    """
+    certificates = Certificate.objects.all().order_by('id')
+    result = []
+    for certificate in certificates:
+        result.append({
+            "id": certificate.id,
+            "title": certificate.title,
+            "acquired_at": datetime.datetime.strftime(certificate.acquired_at, "%B %Y"),
+            "expires_at": datetime.datetime.strftime(certificate.expires_at, "%B %Y") if certificate.expires_at else None,
+            "image": certificate.image.url if certificate.image else None,
+            "provider": certificate.provider,
+            "provider_url": certificate.provider_url,
+            "small_image": certificate.small_image.url if certificate.small_image else None,
+            "cert_url": certificate.cert_url,
+        })
+    return JsonResponse(result, safe=False)
+
 
 
 

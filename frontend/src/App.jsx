@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {HashRouter as Router, Routes, Route} from 'react-router-dom'
 
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -11,29 +11,31 @@ import Github from './pages/Github'
 import Settings from './pages/Settings'
 import ProjectDetail from './pages/ProjectDetail'
 import SingleArticlePage from './pages/ArticleDetail'
-import ErrorBoundary from './components/ErrorBoundary';
+import Certifications from './pages/Certifications'
 
 
 function App() {
-  return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/articles" element={<Articles />} />
-          <Route path="/articles/:id" element={<SingleArticlePage />} />
+    return (
+        <Router>
+            <Layout>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/about" element={<About/>}/>
+                    <Route path="/contact" element={<Contact/>}/>
+                    <Route path="/projects" element={<Projects/>}/>
+                    <Route path="/articles" element={<Articles/>}/>
+                    <Route path="/articles/:id" element={<SingleArticlePage/>}/>
 
-          <Route path="/github" element={<Github />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/projects/:projectName" element={<ProjectDetail />} />
+                    <Route path="/github" element={<Github/>}/>
+                    <Route path="/settings" element={<Settings/>}/>
+                    <Route path="/projects/:projectName" element={<ProjectDetail/>}/>
+                    <Route path="/certifications" element={<Certifications/>}/>
 
-        </Routes>
-      </Layout>
-    </Router>
-  )
+
+                </Routes>
+            </Layout>
+        </Router>
+    )
 }
 
 export default App

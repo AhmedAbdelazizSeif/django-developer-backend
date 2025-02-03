@@ -22,7 +22,7 @@ const Contact = () => {
 
   // Fetch contact info from your Django endpoint
   useEffect(() => {
-    fetch('http://a-seif.zapto.org:8000/api/get_contact_info')
+    fetch('http://127.0.0.1:8000/api/get_contact_info')
       .then((res) => res.json())
       .then((data) => {
         setApiContactInfo(data);
@@ -69,7 +69,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://a-seif.zapto.org:8000/api/contact', {
+      const res = await fetch('http://127.0.0.1:8000/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

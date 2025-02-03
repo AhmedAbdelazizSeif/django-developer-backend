@@ -14,7 +14,7 @@ const SingleArticlePage = () => {
   const [language, setLanguage] = useState('en'); // 'en' or 'ar'
 
   useEffect(() => {
-    fetch(`http://a-seif.zapto.org:8000/api/articles/${id}`)
+    fetch(`http://127.0.0.1:8000/api/articles/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data.error) {
@@ -46,7 +46,7 @@ const SingleArticlePage = () => {
 
         {article.image && (
           <img
-            src={`http://a-seif.zapto.org:8000${article.image}`}
+            src={`http://127.0.0.1:8000${article.image}`}
             alt={article.name}
             className={styles.articleImage}
           />

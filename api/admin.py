@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Contact, Person, Article
+from .models import Project, Contact, Person, Article, Certificate
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
@@ -16,3 +16,5 @@ class PersonAdmin(admin.ModelAdmin):
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('name', 'name_ara', 'image', 'description', 'description_ara', 'created_at')
+
+admin.site.register(Certificate)

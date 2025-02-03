@@ -15,7 +15,7 @@ const ProjectDetail = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://a-seif.zapto.org:8000/api/projects/${encodeURIComponent(projectName)}`
+          `http://127.0.0.1:8000/api/projects/${encodeURIComponent(projectName)}`
         );
         setProjectData(response.data.project);
       } catch (err) {
@@ -60,7 +60,7 @@ const ProjectDetail = () => {
 
   // Construct the full image URL
   const imageUrl = projectData.image 
-    ? `http://a-seif.zapto.org:8000${projectData.image}`
+    ? `http://127.0.0.1:8000${projectData.image}`
     : null;
 
   return (

@@ -17,7 +17,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchPersonData = async () => {
       try {
-        const response = await fetch('http://a-seif.zapto.org:8000/api/get_person');
+        const response = await fetch('http://127.0.0.1:8000/api/get_person');
         if (response.ok) {
           const data = await response.json();
           setPerson(data);
@@ -97,7 +97,7 @@ const HomePage = () => {
         {/* Display the image fetched from backend */}
         {person.image && (
           <img
-          src={`http://a-seif.zapto.org:8000${person.image}`}
+          src={`http://127.0.0.1:8000${person.image}`}
             alt={`${person.name}'s profile`}
             className={styles.profileImage} // Add a new CSS class for styling
           />
