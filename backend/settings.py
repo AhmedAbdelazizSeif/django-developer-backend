@@ -13,6 +13,9 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
 
 # Load environment variables from .env file
 load_dotenv()
@@ -62,11 +65,12 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
 ]
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET')
-}
+cloudinary.config(
+    cloud_name="ahmedseif918",
+    api_key="528599529573942",
+    api_secret="oy2mczZ38SZ19BJosojbh5ZZp6A",
+    secure=True,
+)
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
