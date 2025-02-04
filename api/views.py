@@ -167,7 +167,6 @@ def project_extended_view(request, project_name):
     """
     Return the extended description of a project.
     """
-    project_name = project_name.replace('-', ' ')
     project = get_object_or_404(Project, name=project_name)
     result = {
         "name": project.name,
