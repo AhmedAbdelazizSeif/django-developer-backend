@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
+from urllib.parse import unquote
 import requests
 import json
 
@@ -160,14 +161,17 @@ def get_certificates(request):
         })
     return JsonResponse(result, safe=False)
 
-
-
-
 def project_extended_view(request, project_name):
     """
     Return the extended description of a project.
     """
-    project = get_object_or_404(Project, name=project_name)
+    # Decode the URL-encoded project name
+    decoded_project_name = unquote(project_name)
+
+    # Fetch the project using the decoded name
+    project = get_object_or_404(Project, name=decoded_project_name)
+
+    # Prepare the response data
     result = {
         "name": project.name,
         'image': project.image.url if project.image else None,
@@ -176,6 +180,7 @@ def project_extended_view(request, project_name):
         'skills': project.tag_list(),
     }
     return JsonResponse({"project": result}, safe=True)
+
 
 def get_contact_info(request):
     """
