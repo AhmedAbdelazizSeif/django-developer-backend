@@ -66,9 +66,9 @@ INSTALLED_APPS = [
     'cloudinary',
 ]
 cloudinary.config(
-    cloud_name="ahmedseif918",
-    api_key="528599529573942",
-    api_secret="oy2mczZ38SZ19BJosojbh5ZZp6A",
+    cloud_name="<cloudinary-username>",
+    api_key="<cloudinary-api-key>",
+    api_secret="<cloudinary-api-secret>",
     secure=True,
 )
 
